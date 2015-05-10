@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A Braintree Dropin Payments Example</title>
+    <script src="https://js.braintreegateway.com/js/beta/braintree-hosted-fields-beta.15.min.js"></script>
+    <script src="/components/jquery/dist/jquery.js"></script>
+    <link rel='stylesheet' href='/components/bootstrap/dist/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='/components/bootstrap/dist/css/custom.css'>
+  </head>
+  <body>
+    <div class='container'>
+
+      <div class="col-md-offset-1 col-md-5 col-xs-12 col-sm-6 catus">
+        <img src='/img/paymeh.jpg' class='img-responsive center'>
+      </div>
+
+      <form class='col-md-5 col-xs-12 col-sm-6' id='hostedform' action='/process' method='post'>
+
+        <div class="row">
+          <div class="input-group">
+            <h3>Braintree Hosted Field Demo</h3>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon1">Card Number</span>
+            <div id="card-number" class="form-control"></div>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-group">
+
+            <span class="input-group-addon" id="sizing-addon1">Card Exp</span>
+            <div id="card-exp" class="form-control"></div>
+
+            <span class="input-group-addon" id="sizing-addon1">CVV</span>
+            <div id="card-cvv" class="form-control"></div>
+
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div id='checkout'>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-group col-md-6">
+            <input type='submit' value='Submit Payment' class='btn btn-danger btn-lg'>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-group col-md-12">
+            <h5>Event output</h5>
+            <pre class="litterbox"></pre>
+          </div>
+        </div>
+
+
+      </form>
+    </div>
+
+    <script>
+    function catchange(card){
+      jQuery(".catus img").attr("src", "/img/"+card);
+    }
+
+      braintree.setup("<%= @client_token %>", "custom", {
+        id: "hostedform",
+        hostedFields: {
+          number: {
+            selector: "#card-number"
+          },
+          cvv: {
+            selector: "#card-cvv"
+          },
+          expirationDate: {
+            selector: "#card-exp"
+          },
+          onFieldEvent: function (event) {
+
+            if(event.isValid){
+              if(event.target['fieldKey']==="number"){
+                catchange(event.target['fieldKey']+'-'+event.card.type+'.jpg');
+              }else{
+                catchange(event.target['fieldKey']+'.jpg');
+              }
+
+
+            }
+            else if(event.type === "blur"){
+              catchange(event.target['fieldKey']+'-no.jpg');
+            }
+
+            jQuery('.litterbox').text("Target: "+event.target['fieldKey']+"\nEvent: "+event.type+'\nValid: '+event.isValid);
+
+          }
+        }
+      });
+    </script>
+
+  </body>
+</html>
