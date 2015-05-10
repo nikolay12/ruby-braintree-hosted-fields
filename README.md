@@ -1,6 +1,6 @@
-# V.Zero Ruby demo using Sinatra 
+# Braintree [hosted fields](https://developers.braintreepayments.com/javascript+ruby/guides/hosted-fields/) demo using Ruby and Sinatra
 
-This is a reall basic example of the Braintree Dropin JS Client Library in Sinatra to make a Credit Card or PayPal payment.
+This is a reall basic example of Braintree [hosted fields](https://developers.braintreepayments.com/javascript+ruby/guides/hosted-fields/) and some of the callbacks that are available. 
 
 ## Technology
 
@@ -16,8 +16,6 @@ This demo uses
   * CVV: `123`
   * Expiration date: `11/2020`
 * Click submit
-
-or you can sign in using your PayPal Sandbox account
 
 ## Running the demo locally
 
